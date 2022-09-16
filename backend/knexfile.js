@@ -3,7 +3,9 @@ require('dotenv').config();
 module.exports = {
   client: 'postgresql',
   connection: {
-    connectionString: process.env.DATABASE_URL,
+    host: 'db',
+    user: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD,
     ssl: { rejectUnauthorized : false },
   },
   migrations: {
