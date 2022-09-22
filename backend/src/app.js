@@ -5,7 +5,7 @@ const db = require('./config/db')
 
 app.db = db
 
-consign()
+consign({ cwd: 'src' })
   .include('./config/passport.js')
   .then('./config/middlewares.js')
   .then('./api/validation.js')
@@ -13,8 +13,4 @@ consign()
   .then('./config/routes.js')
   .into(app)
 
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log('Backend executando...')
-})
+module.exports = app;

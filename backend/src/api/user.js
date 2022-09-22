@@ -39,7 +39,7 @@ module.exports = app => {
       const userFromDB = await app.db('users')
         .where({ email: user.email }).first()
 
-      if (userFromDB.deletedAt) {
+      if (userFromDB && userFromDB.deletedAt) {
         user.id = userFromDB.id
         user.deletedAt = null
         user.password = encryptPassword(user.password)
