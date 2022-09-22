@@ -38,6 +38,14 @@ module.exports = app => {
 
       const userFromDB = await app.db('users')
         .where({ email: user.email }).first()
+
+      if (userFromDB.deletedAt) {
+        user.id = userFromDB.id
+        user.deletedAt = null
+        user.password = encryptPassword(user.password)
+        delete user.confirmPassword
+      }
+
       if(!user.id) { 
         notExistsOrError(userFromDB, 'Usuário já cadastrado')
       }
@@ -49,7 +57,6 @@ module.exports = app => {
       app.db('users')
         .update(user)
         .where({ id: user.id })
-        .whereNull('deletedAt')
         .then(_ => res.status(204).send())
         .catch(err => res.status(500).send(err))
     } else {

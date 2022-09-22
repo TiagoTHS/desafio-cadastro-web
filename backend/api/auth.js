@@ -13,6 +13,7 @@ module.exports = app => {
 
     const user = await app.db('users')
       .where(login, req.body.login)
+      .whereNull('deletedAt')
       .first()
 
     if (!user) return res.status(400).send('Usuário não encontrado!')
