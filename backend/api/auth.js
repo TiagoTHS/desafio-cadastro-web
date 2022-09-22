@@ -7,8 +7,7 @@ module.exports = app => {
       return res.status(400).send('Informe usuário e senha!')
     }
 
-    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
-    const cpfRegex = /^[0-9]{3}.?[0-9]{3}.?[0-9]{3}-?[0-9]{2}/
+    const { emailRegex, cpfRegex } = app.api.validation
 
     const login = emailRegex.test(req.body.login) ? 'email' : cpfRegex.test(req.body.login) ? 'cpf' : 'pis'
 

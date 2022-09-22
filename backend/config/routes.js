@@ -4,6 +4,7 @@ module.exports = app => {
   app.post('/validateToken', app.api.auth.validateToken)
 
   app.route('/users')
+    .all(app.config.passport.authenticate())
     .post(app.api.user.save)
     .get(app.api.user.get)
 
@@ -12,4 +13,8 @@ module.exports = app => {
     .put(app.api.user.save)
     .get(app.api.user.getById)
     .delete(app.api.user.remove)
+  
+  app.route('/users/:id/changePassword')
+    .all(app.config.passport.authenticate())
+    .post(app.api.user.changePassword)
 }
