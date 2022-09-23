@@ -172,6 +172,11 @@ export default {
   .edit-content {
     width: 350px;
   }
+
+  .options-buttons {
+    flex-direction: column-reverse;
+    gap: 10px;
+  }
 }
 
 .edit-modal {
