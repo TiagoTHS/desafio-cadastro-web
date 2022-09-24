@@ -7,28 +7,11 @@ module.exports = app => {
       return res.status(400).send('Informe usuário e senha!')
     }
 
-    const { emailRegex } = app.api.validation
-
-    let user = null
-
-    if (emailRegex.test(req.body.login)){
-      user = await app.db('users')
+    const user = await app.db('users')
       .where({ email: req.body.login })
-      .whereNull('deletedAt')
+      .orWhere({ cpf: req.body.login })
+      .orWhere({ pis: req.body.login })
       .first()
-    } else {
-      user = await app.db('users')
-      .where({ cpf: req.body.login })
-      .whereNull('deletedAt')
-      .first()
-
-      if(!user) {
-        user = await app.db('users')
-        .where({ pis: req.body.login })
-        .whereNull('deletedAt')
-        .first()
-      }
-    }
 
     if (!user) return res.status(400).send('Usuário não encontrado!')
 
