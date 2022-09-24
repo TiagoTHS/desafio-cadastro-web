@@ -22,6 +22,20 @@ module.exports = app => {
     if(valueA !== valueB) throw msg
   }
 
+  function verifyUnique(user, userFromDB) {
+    if (userFromDB) {
+      if (userFromDB.email == user.email) {
+        throw 'Email já cadastrado'
+      } else if (userFromDB.cpf == user.cpf) {
+        throw 'CPF já cadastrado'
+      } else if (userFromDB.pis == user.pis) {
+        throw 'PIS já cadastrado'
+      }
+    }
+
+    return
+  }
+
   function isAnEmailOrError(strEmail, msg) {
     if (!emailRegex.test(strEmail)) {
       throw msg
@@ -47,6 +61,7 @@ module.exports = app => {
     existsOrError, 
     notExistsOrError, 
     equalsOrError, 
+    verifyUnique,
     isAnEmailOrError,
     isCPFOrError,
     isPISOrError

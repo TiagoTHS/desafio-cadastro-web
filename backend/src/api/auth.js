@@ -8,6 +8,7 @@ module.exports = app => {
     }
 
     const user = await app.db('users')
+      .whereNull('deletedAt')
       .where({ email: req.body.login })
       .orWhere({ cpf: req.body.login })
       .orWhere({ pis: req.body.login })

@@ -52,7 +52,7 @@ describe('Users', () => {
     })
   
     expect(response.status).toBe(400)
-    expect(response.text).toBe('Usuário já cadastrado')
+    expect(response.text).toBe('Email já cadastrado')
   })
 
   it('should be able to authenticate with email', async () => {
@@ -86,5 +86,16 @@ describe('Users', () => {
   
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('token');
+  })
+
+  it('should not be able to authenticate with a non existing user', async () => {
+    const response = await request(app).post('/signin')
+    .send({
+      login: "teste2@teste.br",
+      password: "0000",
+    })
+  
+    expect(response.status).toBe(400)
+    expect(response.text).toBe('Usuário não encontrado!')
   })
 })

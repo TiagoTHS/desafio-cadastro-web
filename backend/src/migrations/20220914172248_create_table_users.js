@@ -12,7 +12,7 @@ exports.up = function(knex) {
     table.string('number').notNull()
     table.string('complement')
     table.string('cpf').notNull().unique()
-    table.string('pis').notNull()
+    table.string('pis').notNull().unique()
     table.timestamp('deletedAt')
   })
 };

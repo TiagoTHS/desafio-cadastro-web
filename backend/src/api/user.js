@@ -2,9 +2,9 @@ const bcrypt = require('bcrypt-nodejs')
 
 module.exports = app => {
   const { 
-    existsOrError, 
-    notExistsOrError, 
+    existsOrError,  
     equalsOrError, 
+    verifyUnique,
     isAnEmailOrError,
     isCPFOrError,
     isPISOrError } = app.api.validation
@@ -39,7 +39,10 @@ module.exports = app => {
       isPISOrError(user.pis, 'PIS inválido')
 
       const userFromDB = await app.db('users')
-        .where({ email: user.email }).first()
+        .where({ email: user.email })
+        .orWhere({ cpf: user.cpf })
+        .orWhere({ pis: user.pis })
+        .first()
 
       if (userFromDB && userFromDB.deletedAt) {
         user.id = userFromDB.id
@@ -49,7 +52,11 @@ module.exports = app => {
       }
 
       if(!user.id) { 
-        notExistsOrError(userFromDB, 'Usuário já cadastrado')
+        verifyUnique(user, userFromDB)
+      } else {
+        if (user.id != userFromDB.id) {
+          verifyUnique(user, userFromDB)
+        }
       }
     } catch(msg) {
       return res.status(400).send(msg)
