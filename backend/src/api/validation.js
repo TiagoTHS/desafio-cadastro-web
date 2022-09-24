@@ -1,6 +1,7 @@
 module.exports = app => {
   const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
   const cpfRegex = /^[0-9]{3}.?[0-9]{3}.?[0-9]{3}-?[0-9]{2}/
+  const pisRegex = /^[0-9]{3}.?[0-9]{5}.?[0-9]{2}-?[0-9]{1}/
 
   function existsOrError(value, msg) {
     if(!value) throw msg
@@ -33,13 +34,21 @@ module.exports = app => {
     }
   }
 
+  function isPISOrError(strPIS, msg) {
+    if (!pisRegex.test(strPIS)) {
+      throw msg
+    }
+  }
+
   return { 
     emailRegex,
     cpfRegex,
+    pisRegex,
     existsOrError, 
     notExistsOrError, 
     equalsOrError, 
     isAnEmailOrError,
-    isCPFOrError
+    isCPFOrError,
+    isPISOrError
   }
 }

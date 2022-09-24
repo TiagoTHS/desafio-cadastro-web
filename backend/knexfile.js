@@ -7,6 +7,7 @@ module.exports = {
     ssl: { rejectUnauthorized : false },
   },
   migrations: {
+    directory: 'src/migrations',
     tableName: 'knex_migrations'
   },
   test: {

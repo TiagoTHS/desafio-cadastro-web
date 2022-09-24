@@ -6,7 +6,8 @@ module.exports = app => {
     notExistsOrError, 
     equalsOrError, 
     isAnEmailOrError,
-    isCPFOrError } = app.api.validation
+    isCPFOrError,
+    isPISOrError } = app.api.validation
 
   const encryptPassword = password => {
     const salt = bcrypt.genSaltSync(10)
@@ -35,6 +36,7 @@ module.exports = app => {
       existsOrError(user.cpf, 'CPF não informado')
       isCPFOrError(user.cpf, 'CPF inválido')
       existsOrError(user.pis, 'PIS não informado')
+      isPISOrError(user.pis, 'PIS inválido')
 
       const userFromDB = await app.db('users')
         .where({ email: user.email }).first()

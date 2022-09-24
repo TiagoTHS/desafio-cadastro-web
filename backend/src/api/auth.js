@@ -7,14 +7,28 @@ module.exports = app => {
       return res.status(400).send('Informe usuário e senha!')
     }
 
-    const { emailRegex, cpfRegex } = app.api.validation
+    const { emailRegex } = app.api.validation
 
-    const login = emailRegex.test(req.body.login) ? 'email' : cpfRegex.test(req.body.login) ? 'cpf' : 'pis'
+    let user = null
 
-    const user = await app.db('users')
-      .where(login, req.body.login)
+    if (emailRegex.test(req.body.login)){
+      user = await app.db('users')
+      .where({ email: req.body.login })
       .whereNull('deletedAt')
       .first()
+    } else {
+      user = await app.db('users')
+      .where({ cpf: req.body.login })
+      .whereNull('deletedAt')
+      .first()
+
+      if(!user) {
+        user = await app.db('users')
+        .where({ pis: req.body.login })
+        .whereNull('deletedAt')
+        .first()
+      }
+    }
 
     if (!user) return res.status(400).send('Usuário não encontrado!')
 
