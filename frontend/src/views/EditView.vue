@@ -50,7 +50,7 @@
         />
 
         <div class="options-buttons">
-          <button class="delete-button" @click="deleteUser">
+          <button class="delete-button" @click="deleteConfirmation">
             Excluir Conta
           </button>
           <button
@@ -152,6 +152,22 @@ export default {
           this.$router.push({ name: "auth" });
         })
         .catch(showError);
+    },
+    deleteConfirmation() {
+      this.$swal({
+        icon: "warning",
+        title: "Deseja mesmo excluir a conta ?",
+        showCancelButton: true,
+        allowOutsideClick: true,
+        confirmButtonText: "Confirmar",
+        confirmButtonColor: "#dc3545",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.deleteUser();
+        } else if (result.isDismissed) {
+          return;
+        }
+      });
     },
   },
   mounted() {
