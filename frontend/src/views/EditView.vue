@@ -21,13 +21,18 @@
         <input
           v-model="userEdited.zipcode"
           type="text"
-          v-maska="'########'"
+          v-maska="'#*'"
           placeholder="CEP"
         />
         <span>Rua:</span>
         <input v-model="userEdited.street" type="text" placeholder="Rua" />
         <span>Número:</span>
-        <input v-model="userEdited.number" type="number" placeholder="Número" />
+        <input
+          v-model="userEdited.number"
+          type="text"
+          v-maska="'#*'"
+          placeholder="Número"
+        />
         <span>Complemento:</span>
         <input
           v-model="userEdited.complement"

@@ -32,11 +32,16 @@
         <input
           v-model="user.zipcode"
           type="text"
-          v-maska="'########'"
+          v-maska="'#*'"
           placeholder="CEP"
         />
         <input v-model="user.street" type="text" placeholder="Rua" />
-        <input v-model="user.number" type="number" placeholder="Número" />
+        <input
+          v-model="user.number"
+          type="text"
+          v-maska="'#*'"
+          placeholder="Número"
+        />
         <input
           v-model="user.complement"
           type="text"
